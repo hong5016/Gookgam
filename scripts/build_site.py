@@ -20,16 +20,19 @@ DAY = YT_START.date()
 
 # ---------- 자료 수집 ----------
 def live_status():
-    try:
-        req = urllib.request.Request(
-            "https://assembly.webcast.go.kr/main/service/live_list.asp",
-            headers={"Referer": "https://assembly.webcast.go.kr/main/"})
-        d = json.loads(urllib.request.urlopen(req, timeout=15).read().decode("utf-8-sig"))
-        for x in d["xlist"]:
-            if x["xcode"] == CFG["xcode"]:
-                return x.get("xdesc") or "-"
-    except Exception:
-        pass
+    # 프록시 연결이 간헐적으로 끊겨 최대 4회 재시도
+    import time
+    for i in range(4):
+        try:
+            req = urllib.request.Request(
+                "https://assembly.webcast.go.kr/main/service/live_list.asp",
+                headers={"Referer": "https://assembly.webcast.go.kr/main/"})
+            d = json.loads(urllib.request.urlopen(req, timeout=15).read().decode("utf-8-sig"))
+            for x in d["xlist"]:
+                if x["xcode"] == CFG["xcode"]:
+                    return x.get("xdesc") or "-"
+        except Exception:
+            time.sleep(2 * (i + 1))
     return "확인 불가"
 
 
@@ -108,7 +111,7 @@ def pdot(party):
 def status_class(s):
     if "산회" in s or "확인" in s:
         return "off"
-    if any(k in s for k in ("정회", "중지", "예정", "계속")):
+    if any(k in s for k in ("정회", "중지", "예정")):
         return "warn"
     return "ok"
 
