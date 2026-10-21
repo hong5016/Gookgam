@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# README 재생성 → 변경분 커밋 → push. 3분 간격 반복 (once 인자 시 1회).
+# README·HTML 재생성 → 변경분 커밋 → push. 10분 간격 반복 (once 인자 시 1회).
 REPO="$(cd "$(dirname "$0")/.." && pwd)"; BR="claude/awesome-babbage-y72moa"
 WORK="${GK_WORK:-/home/user/gk_work}"; export TZ=Asia/Seoul
 publish() {
@@ -17,5 +17,5 @@ Claude-Session: https://claude.ai/code/session_01WGBi2A23N2wTt9mRxmSo1p"
 if [ "$1" = "once" ]; then publish; exit; fi
 while true; do
   [ -f "$WORK/STOP_PUBLISHER" ] && exit 0
-  publish; echo "$(date '+%H:%M:%S') published"; sleep 180
+  publish; echo "$(date '+%H:%M:%S') published"; sleep 600
 done
