@@ -13,7 +13,7 @@ CFG = json.load(open(os.path.join(REPO, "config.json"), encoding="utf-8"))
 E = html.escape
 
 PARTY = {"더불어민주당": "dp", "국민의힘": "ppp", "조국혁신당": "rk", "개혁신당": "rf"}
-KIND = {"opening": "개회", "report": "업무보고", "procedural": "의사진행", "question": "질의"}
+KIND = {"opening": "개회", "report": "업무보고", "procedural": "의사진행", "question": "질의", "closing": "마무리"}
 YT_START = dt.datetime.strptime(CFG["youtube_start"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=KST)
 DAY = YT_START.date()
 
