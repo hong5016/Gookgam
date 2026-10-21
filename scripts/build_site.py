@@ -109,7 +109,7 @@ def pdot(party):
 
 
 def status_class(s):
-    if "산회" in s or "확인" in s:
+    if "산회" in s or "종료" in s or "확인" in s:
         return "off"
     if any(k in s for k in ("정회", "중지", "예정")):
         return "warn"
@@ -464,7 +464,8 @@ def build(S, status, last, lines, now):
     <div class="links"><button class="btn sm" data-tx-go="{E(x['start'])}">전사본 {E(x['start'])}</button>
       <a class="yt" href="{yt_url(x['start'])}" target="_blank" rel="noopener">유튜브 {E(x['start'])}</a></div>
   </div></article>""")
-    rows.append(f'<div class="row now"><div class="r-time">{E(last)}</div><div>여기까지 전사·요약 반영됨 (요약 기준 {E(S.get("updated", "-")[-5:])}, 약 10분 간격 갱신)</div></div>')
+    now_txt = S.get("final_note") or f'여기까지 전사·요약 반영됨 (요약 기준 {S.get("updated", "-")[-5:]}, 약 10분 간격 갱신)'
+    rows.append(f'<div class="row now"><div class="r-time">{E(last)}</div><div>{E(now_txt)}</div></div>')
 
     # 전사본: 시 단위 묶음 + 발언 표지
     marks = {x["start"] + ":00": x for x in xs}
