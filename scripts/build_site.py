@@ -93,7 +93,7 @@ CSS = """
   --ok:#5cc58e; --warn:#e2a740; --off:#9097a0;
   --dp:#6b9cf0; --ppp:#f07379; --rk:#7f9fe8; --rf:#f5a15a; color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
 a{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -109,7 +109,8 @@ h1{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,4vw,34px);l
 @keyframes pulse{50%{opacity:.25}}
 .cols{display:grid;gap:28px;grid-template-columns:1fr}
 @media (min-width:920px){.cols{grid-template-columns:270px minmax(0,1fr)}}
-aside.rail{display:grid;gap:20px;align-content:start;font-size:13.5px}
+aside.rail{display:grid;gap:20px;align-content:start;font-size:13.5px;order:2}
+@media (min-width:920px){aside.rail{order:0}}
 @media (min-width:920px){aside.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}}
 .rail h3{font-size:12px;letter-spacing:.08em;color:var(--muted);margin:0 0 6px;font-weight:600}
 dl.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0}
