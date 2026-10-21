@@ -7,6 +7,6 @@ X=$(python3 -c "import json;print(json.load(open('$REPO/config.json'))['xcode'])
 T=$(python3 -c "import json;print(json.load(open('$REPO/config.json'))['transcript_file'])")
 cd "$WORK"
 pgrep -f "recorder.sh" >/dev/null || setsid nohup "$REPO/scripts/recorder.sh" "$X" "$WORK" >> logs/recorder.log 2>&1 < /dev/null &
-pgrep -f "transcriber.py" >/dev/null || HF_HUB_DISABLE_PROGRESS_BARS=1 setsid nohup python3 "$REPO/scripts/transcriber.py" --work "$WORK" --out "$REPO/$T" >> logs/transcriber.log 2>&1 < /dev/null &
+pgrep -f "transcriber.py --work $WORK --out" >/dev/null || HF_HUB_DISABLE_PROGRESS_BARS=1 setsid nohup python3 "$REPO/scripts/transcriber.py" --work "$WORK" --out "$REPO/$T" >> logs/transcriber.log 2>&1 < /dev/null &
 pgrep -f "publish.sh" >/dev/null || setsid nohup "$REPO/scripts/publish.sh" >> logs/publish.log 2>&1 < /dev/null &
 sleep 2; pgrep -af "recorder.sh|transcriber.py|publish.sh" | grep -v pgrep
