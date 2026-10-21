@@ -54,5 +54,12 @@
   ],
   "artifact_out": "/tmp/claude-0/-home-user-Gookgam/376eb479-251f-5cea-b341-6c25d1f946bd/scratchpad/gookgam_live.html",
   "members_label": "출석 위원(감사1반)",
-  "members_note": "감사2반(전남대 등 10개 국립대): 고민정 간사, 김문수·박범계·안규백·장동혁·박정훈·강경숙 위원"
+  "members_note": "감사2반(전남대 등 10개 국립대): 고민정 간사, 김문수·박범계·안규백·장동혁·박정훈·강경숙 위원",
+  "redact": [
+    [
+      "10:53:35",
+      "10:53:53",
+      "보도 영상 재생 구간 — 생략"
+    ]
+  ]
 }

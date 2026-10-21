@@ -231,6 +231,11 @@ def build_fragment(S, status, last, chunks, now):
             hours[key] = []
             order.append(key)
         for t, txt in ch["lines"]:
+            red = next((r for r in CFG.get("redact", []) if r[0] <= t <= r[1]), None)
+            if red:
+                if t == next(x for x, _ in ch["lines"] if red[0] <= x <= red[1]):
+                    hours[key].append(f'<span class="gap">({E(red[2])})</span>')
+                continue
             hours[key].append(f'<p data-t="{t}"><time>{t}</time><span>{E(txt)}</span></p>')
     tx = []
     for i, h in enumerate(order):
