@@ -265,7 +265,7 @@ def build_fragment(S, status, last, chunks, now):
     <dt>페이지 생성</dt><dd>{now:%H:%M}</dd></dl></div>
   <div><h3>피감기관</h3><ul class="plain">{insts}</ul></div>
   <div><h3>위원장</h3><span class="mem">{party_dot(c["chair"]["party"])}{E(c["chair"]["name"])}</span></div>
-  <div><h3>위원</h3><div class="members">{members}</div></div>
+  <div><h3>{E(c.get("members_label", "위원"))}</h3><div class="members">{members}</div>{f'<p class="note" style="margin-top:6px">{E(c["members_note"])}</p>' if c.get("members_note") else ""}</div>
   <div><h3>생중계</h3><ul class="plain">
     <li><a href="{E(c["youtube"])}" target="_blank" rel="noopener">YouTube 국회방송</a></li>
     <li><a href="https://assembly.webcast.go.kr/main/player.asp?xcode={E(c["xcode"])}" target="_blank" rel="noopener">국회 의사중계시스템</a></li></ul></div>
@@ -283,7 +283,7 @@ def build_fragment(S, status, last, chunks, now):
     <div>{"".join(tx) or '<p class="note">전사 대기 중</p>'}</div></section>
   <footer>
     <span>자료원: 국회 의사중계시스템 생중계·퀵VOD 음성(유튜브 국회방송 생중계와 같은 회의)</span>
-    <span>전사: Whisper large-v3-turbo(faster-whisper) · 요약: Claude, 약 25분 간격 갱신</span>
+    <span>전사: Whisper large-v3-turbo(faster-whisper) · 요약: Claude, 약 10분 간격 갱신</span>
     <span>국회에서 공개적으로 한 진술은 저작권법 제24조에 따라 자유롭게 이용할 수 있습니다.</span>
   </footer>
 </main>
@@ -352,7 +352,7 @@ def build_readme(S, status, last, now):
 
 1. 자료원: 국회 의사중계시스템 HLS 생중계·퀵VOD 음성(유튜브 국회방송 생중계와 같은 회의). 클라우드 서버에서 유튜브가 차단돼 국회 공식 스트림 사용.
 2. 전사: Whisper large-v3-turbo(faster-whisper, int8 CPU), 3분 단위, 무음 구간 제거.
-3. 요약: Claude가 약 25분 간격으로 새 전사분을 읽고 쟁점·질의 중심으로 정리.
+3. 요약: Claude가 약 10분 간격으로 새 전사분을 읽고 쟁점·질의 중심으로 정리.
 4. 한계: 화자 분리 미적용, 동시 발언 누락, 수집 공백은 전사본에 ⚠️로 표기.
 5. 국회에서 공개적으로 한 진술은 저작권법 제24조에 따라 자유롭게 이용 가능.
 """
