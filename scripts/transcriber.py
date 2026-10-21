@@ -56,7 +56,8 @@ def main():
     ap.add_argument("--out", required=True, help="Markdown 출력 경로")
     ap.add_argument("--model", default="large-v3-turbo")
     ap.add_argument("--beam", type=int, default=3)
-    ap.add_argument("--chunk-sec", type=int, default=180)
+    ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--once", action="store_true", help="남은 파일 처리 후 종료(보강용)")
     args = ap.parse_args()
 
     state_path = os.path.join(args.work, "transcriber_state.json")
@@ -66,7 +67,7 @@ def main():
         state = json.load(open(state_path))
     done = set(state["done"])
 
-    model = WhisperModel(args.model, device="cpu", compute_type="int8", cpu_threads=4)
+    model = WhisperModel(args.model, device="cpu", compute_type="int8", cpu_threads=args.threads)
     print(f"{dt.datetime.now(KST):%H:%M:%S} 모델 로드 완료", flush=True)
 
     while True:
@@ -79,12 +80,15 @@ def main():
             name = os.path.basename(f)
             if name in done:
                 continue
-            newest = i == len(files) - 1
+            newest = i == len(files) - 1 and not args.once
             # 마지막 파일은 녹음 중이므로, 90초 이상 갱신이 없을 때만 처리
             if newest and time.time() - os.path.getmtime(f) < 90:
                 continue
             todo.append(f)
         if not todo:
+            if args.once:
+                print("보강 완료", flush=True)
+                return
             time.sleep(10)
             continue
 
