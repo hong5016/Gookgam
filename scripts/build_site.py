@@ -191,7 +191,7 @@ def party_dot(party):
 def status_class(s):
     if "산회" in s:
         return "off"
-    if "정회" in s or "중지" in s:
+    if any(k in s for k in ("정회", "중지", "예정", "계속")):
         return "warn"
     if "확인" in s:
         return "off"
@@ -214,7 +214,7 @@ def build_fragment(S, status, last, chunks, now):
         pts = "".join(f"<li>{E(p)}</li>" for p in r.get("points", []))
         tl.append(f'<div class="tl-row"><div class="tl-time">{E(r["start"])}</div><div>'
                   f'<div class="tl-who">{party_dot(r.get("party", ""))}<b>{E(r["member"])}</b>{role}'
-                  f'<span class="to">{E(r.get("party", ""))} · 대상: {E(r.get("targets", ""))}</span>{inf}</div>'
+                  f'<span class="to">{E(r.get("party", "") + " · " if r.get("party") else "")}{E(r.get("targets", ""))}</span>{inf}</div>'
                   f'<ul>{pts}</ul></div></div>')
     reqs = "".join(f'<tr><td>{E(q["from"])}</td><td>{E(q["to"])}</td><td>{E(q["what"])}</td></tr>'
                    for q in S.get("requests", []))
